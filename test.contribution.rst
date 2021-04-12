@@ -77,13 +77,27 @@ To run the tests, you need to open a terminal, go into the folder which contains
     
 How to mark a test
 ``````````````````
-Pytest enables to set metadata on the test functions with markers. This feature enables to easily exclude or include some tests from the test execution. Here is the list of some of the current markers used in PYLEECAN:
+Pytest enables to set metadata on the test functions with markers. This feature enables to easily exclude or include some tests from the test execution. Markers also give us a better assess which parts of the code are covered, and avoid redundant testing. Here is the list of some of the current markers used in PYLEECAN:
 
-- validation : validation test, executes a workflow to check the results validity
-- long : test that last more than 30 seconds
-- FEMM : test using FEMM
-- GMSH : test using GMSH
-- DEAP : test using DEAP 
+* Machine Markers :
+    - IPMSM : IPMSM machine
+    - SCIM : SCIM machine
+    - SPMSM : SPMSM machine
+    - ...
+* Model Markers :
+    - EEC_PMSM : test using EEC_PMSM
+    - EEC_SCIM : test using EEC_SCIM
+    - MagFEMM : test using MagFEMM
+    - ...
+* Feature Markers :
+    - VarLoadCurrent : test using VarLoadCurrent
+    - SingleOP : test on a single operating point
+    - periodicity : test that uses periodicity
+    - ...
+* Duration Markers :
+    - long_5s : test that last more than 5 seconds
+    - long_1m : test that last more than 1 minute
+    - long_10m : test that last more than 10 minutes
 
 The complete list is available in the file pyleecan/pytest.ini
 
@@ -98,7 +112,7 @@ To mark a test, you just need to add it a decorator:
 
     import pytest 
 
-    @pytest.mark.validation
+    @pytest.mark.IPMSM
     def test_upper():
         assert 'foo'.upper() == 'FOO'
  
@@ -108,8 +122,8 @@ It is also possible to set several markers to a test:
 
     import pytest 
 
-    @pytest.mark.long
-    @pytest.mark.FEMM
+    @pytest.mark.SingleOP
+    @pytest.mark.long_10m
     def test_lower():
         assert 'FOO'.lower() == 'foo'
     
@@ -168,4 +182,14 @@ colored in pink**
 .. image:: _static/coverage1.png
 
 In this case, there is no test to check that the discretization can handle strange arguments.
+ 
+
+Pytest-excel
+----------------------
+
+By using this package, it is possible to have a report of what is tested, the duration of each test, if they are successful or not and their markers. To run it:
+
+::
+
+        pytest --excelreport=report.xlsx
  
