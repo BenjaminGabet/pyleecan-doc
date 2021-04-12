@@ -101,6 +101,8 @@ Pytest enables to set metadata on the test functions with markers. This feature 
 
 The complete list is available in the file pyleecan/pytest.ini
 
+This organization will result in a multiplication of markers, but it will improve the testing flexibility and knowledge of our coverage.
+
 The following command is an example to execute only validations test that don't use FEMM: 
 ::
 
